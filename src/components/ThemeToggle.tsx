@@ -19,8 +19,13 @@ const getSnapshot = (): Theme =>
 // null on the server -> render the track without a state, avoiding a hydration mismatch
 const getServerSnapshot = (): Theme | null => null;
 
+/** Current theme ('light' | 'dark'), or null during server rendering. */
+export function useTheme(): Theme | null {
+  return useSyncExternalStore<Theme | null>(subscribe, getSnapshot, getServerSnapshot);
+}
+
 export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }) => {
-  const theme = useSyncExternalStore<Theme | null>(subscribe, getSnapshot, getServerSnapshot);
+  const theme = useTheme();
 
   // In development, React Strict Mode's remount resets <html> to the attributes
   // from JSX, clearing the class the inline script set. Re-apply it before paint.
