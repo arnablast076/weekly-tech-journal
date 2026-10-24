@@ -16,14 +16,15 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="border-b border-stone-200 bg-paper/95 backdrop-blur-md relative z-30 transition-all">
-      <div className="border-b border-stone-200/60 py-2 px-4 sm:px-8 text-[11px] uppercase tracking-wider text-stone-500 font-medium flex items-center justify-between">
+      <div className="border-b border-stone-200/60 py-1.5 px-4 sm:px-8 text-[11px] uppercase tracking-wider text-stone-500 font-medium flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span>{currentEdition.dateRange}</span>
           <span className="text-stone-300">|</span>
           <span className="font-semibold text-stone-700">Issue {currentEdition.issueCode}</span>
         </div>
-        <div className="flex items-center gap-3 text-stone-400">
-          <span>Curated Weekly Tech Journal</span>
+        <div className="flex items-center gap-4">
+          <span className="hidden text-stone-400 sm:inline">Curated Weekly Tech Journal</span>
+          <ThemeToggle />
         </div>
       </div>
 
@@ -42,7 +43,6 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-2.5 shrink-0">
-          <ThemeToggle />
           <button
             onClick={onOpenArchive}
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-stone-300 bg-white text-stone-700 hover:text-stone-900 hover:border-stone-400 hover:bg-stone-50 text-xs sm:text-sm font-medium transition-all shadow-2xs cursor-pointer"

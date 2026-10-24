@@ -16,7 +16,7 @@ function subscribe(onChange: () => void) {
 const getSnapshot = (): Theme =>
   document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 
-// null on the server -> render a neutral placeholder, avoiding a hydration mismatch
+// null on the server -> render the track without a state, avoiding a hydration mismatch
 const getServerSnapshot = (): Theme | null => null;
 
 export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }) => {
@@ -58,18 +58,30 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={isDark}
+      aria-label="Dark mode"
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       onClick={toggle}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={isDark ? 'Light mode' : 'Dark mode'}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-lg border border-stone-300 bg-white text-stone-700 shadow-2xs transition-all hover:border-stone-400 hover:bg-stone-50 hover:text-stone-900 cursor-pointer ${className}`}
+      className={`group relative inline-flex h-7 w-14 shrink-0 items-center rounded-full border border-stone-300 bg-stone-100 shadow-inner transition-colors hover:border-stone-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900 cursor-pointer ${className}`}
     >
-      {theme === null ? (
-        <span className="h-4 w-4" />
-      ) : isDark ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
+      {/* Track icons: sit on either side of the thumb */}
+      <Sun aria-hidden className="absolute left-1.5 h-3.5 w-3.5 text-stone-400" />
+      <Moon aria-hidden className="absolute right-1.5 h-3.5 w-3.5 text-stone-400" />
+
+      {/* Thumb: slides over the active side and shows the active mode's icon */}
+      <span
+        aria-hidden
+        className={`absolute left-[3px] top-[3px] flex h-5 w-5 items-center justify-center rounded-full bg-stone-900 text-white shadow-sm transition-transform duration-200 ease-out ${
+          isDark ? 'translate-x-7' : 'translate-x-0'
+        }`}
+      >
+        {theme === null ? null : isDark ? (
+          <Moon className="h-3 w-3" />
+        ) : (
+          <Sun className="h-3 w-3" />
+        )}
+      </span>
     </button>
   );
 };
