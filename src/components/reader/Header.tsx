@@ -3,6 +3,7 @@
 import React from 'react';
 import { Archive, BookOpen, Compass } from 'lucide-react';
 import { Edition } from '@/types/journal';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface HeaderProps {
   currentEdition: Edition;
@@ -14,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenArchive
 }) => {
   return (
-    <header className="border-b border-stone-200 bg-[#faf9f6]/95 backdrop-blur-md relative z-30 transition-all">
+    <header className="border-b border-stone-200 bg-paper/95 backdrop-blur-md relative z-30 transition-all">
       <div className="border-b border-stone-200/60 py-2 px-4 sm:px-8 text-[11px] uppercase tracking-wider text-stone-500 font-medium flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span>{currentEdition.dateRange}</span>
@@ -41,6 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-2.5 shrink-0">
+          <ThemeToggle />
           <button
             onClick={onOpenArchive}
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-stone-300 bg-white text-stone-700 hover:text-stone-900 hover:border-stone-400 hover:bg-stone-50 text-xs sm:text-sm font-medium transition-all shadow-2xs cursor-pointer"
